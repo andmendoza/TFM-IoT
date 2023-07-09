@@ -9,3 +9,18 @@ de MongoDB para luego ser enviados a la web.
 
 Arquitectura del sistema
 ![image](https://github.com/andmendoza/TFM-IoT/assets/68863818/a83b0a67-505e-400e-885e-74b9b39c57b7)
+
+Librerías utilizadas
+En la raíz del proyecto tenemos un archivo “requirements.txt” con todas las librerías que requiere el proyecto. Luego abrir la ruta del proyecto en un terminal y digitar el siguiente comando para instalar las librerías con el siguiente comando:
+python -m pip install -r requirements.txt
+
+1. Algoritmo cargado en la placa ESP32-CAM
+   esp32-cam
+2. Servidor sockets
+   mongodb_iot_onrumbo_wsserver_raid.py
+3. Algoritmo de somnolencia
+   mongodbfasedetectorsinventanaclass
+5. Aplicación WEB
+   www_IoT_Somnolencia
+
+
