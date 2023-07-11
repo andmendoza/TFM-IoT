@@ -15,7 +15,7 @@ import face_recognition
 import urllib.request  # para abrir y leer URL
 from PIL import Image
 import sys
-
+import time
 from pprint import pprint
 from pymongo import MongoClient
 import http.client
@@ -23,15 +23,38 @@ import ssl
 import base64
 import urllib.parse
 
+
 client = MongoClient('localhost', 27017)
 db = client['iotonrumbo']
 bddhelper = BddHelper(db)
 
 
+# Load a sample picture and learn how to recognize it.
+""" obama_image = face_recognition.load_image_file("rostros/obama.jpeg")
+obama_face_encoding = face_recognition.face_encodings(obama_image)[0] """
 
+# Load a second sample picture and learn how to recognize it.
+""" biden_image = face_recognition.load_image_file("rostros/luis.png")
+biden_face_encoding = face_recognition.face_encodings(biden_image)[0] """
+
+""" andres_image = face_recognition.load_image_file("rostros/andres.png")
+andres_face_encoding = face_recognition.face_encodings(andres_image)[0] """
+
+# Create arrays of known face encodings and their names
+""" known_face_encodings = [
+    obama_face_encoding,
+    biden_face_encoding,
+    andres_face_encoding
+]
+known_face_names = [
+    "Barack Obama",
+    "Luis",
+    "Andres Mendoza"
+] """
 known_face_encodings =[]
 known_face_names = []
 empleados = bddhelper.getEmpleados()
+
 for rowEmpleado in empleados:
     #print(rowEmpleado)
     local_image = face_recognition.load_image_file(rowEmpleado['imagen'])
@@ -138,13 +161,12 @@ predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
 (reStart, reEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 (mStart, mEnd) = face_utils.FACIAL_LANDMARKS_IDXS["mouth"]
 
-#cambiar direccion del directorio
 directorioBase = "C:/tem/16-06-2023/iot_socket_server/images/"
 
 while (True):
 
     
-    currentTraking = bddhelper.getlastnodetectimage('arduni_es_1')
+    currentTraking = bddhelper.getlastnodetectimage('arduni_ec_1')
 
     if currentTraking:
         estado_tracking = "SINESTADO"
@@ -186,7 +208,7 @@ while (True):
         # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # gray = frame
         # rects = detector(gray, 0)
-
+        inicio_fd = time.time()
         if process_this_frame:
 
             if (len(rects)):
@@ -321,13 +343,14 @@ while (True):
 
         cv2.imwrite(pathImageFd, img)
         cv2.imwrite(pathImageLastFd, img)
-        
+        fin_fd = time.time()
+        diff_in_milli_secs = fin_fd - inicio_fd
         
         #filtro = {'_id': currentTraking['_id']}
         # Define los campos y los valores que deseas actualizar
         #actualizacion = {'$set': {'fd': '1'}}
         # Actualiza el documento utilizando update_one
-        result = bddhelper.updateTrackingFD(currentTraking,estado_tracking,persona_tracking,empleado_id_fd)
+        result = bddhelper.updateTrackingFD(currentTraking,estado_tracking,persona_tracking,empleado_id_fd,diff_in_milli_secs)
         if persona_tracking!= 'SINPERSONA'  and estado_tracking != "SINESTADO":
             last_trackings = bddhelper.getLastTrackingByAsignacion(currentTraking['_id'],currentTraking['asignacion_id'], 5)
             if len(last_trackings) > 1:

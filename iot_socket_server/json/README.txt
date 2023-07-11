@@ -1,0 +1,1 @@
+Carpeta donde se guarda los fragmentos temporales de fotos en formato JSON
