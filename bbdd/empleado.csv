@@ -1,0 +1,5 @@
+"_id","apellidos","cliente_id","email","estado","imagen","nombres"
+"646a3d1a1693a4904f69e348","obama","646a39581693a4904f69e322","barak@yo.com","1","rostros/obama.jpeg","Barack"
+"646a8735c04900006a007393","PEREZ","646a39581693a4904f69e322","luisperes@yo.com","1","rostros/luis.png","LUIS"
+"646a87b6c04900006a007394","MENDOZA","646a39581693a4904f69e322","andresmendoza.com","1","rostros/andres.png","ANDRES"
+"646d0e5582310000a00067f2","X","646a39581693a4904f69e322","javuu@yo.com","1","rostros/javuu.jpg","JAVUU"
